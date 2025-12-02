@@ -7,6 +7,7 @@ import sys
 import logging
 from flask import Flask, render_template, request, jsonify
 import os
+from pathlib import Path
 from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
@@ -23,7 +24,15 @@ try:
 except ImportError:
     logger.warning("python-dotenv not available, skipping .env file loading")
 
-app = Flask(__name__, static_folder='static', template_folder='templates')
+# Get absolute paths for static and template folders
+base_dir = Path(__file__).parent
+static_folder = str(base_dir / 'static')
+template_folder = str(base_dir / 'templates')
+
+logger.info(f"Static folder: {static_folder}")
+logger.info(f"Template folder: {template_folder}")
+
+app = Flask(__name__, static_folder=static_folder, static_url_path='/static', template_folder=template_folder)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Email configuration - Use environment variables in production
