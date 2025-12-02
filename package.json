@@ -1,0 +1,19 @@
+{
+  "name": "portfolio-elpidia",
+  "version": "1.0.0",
+  "description": "Portfolio professionnel personnel",
+  "author": "Élpidia Lissassi",
+  "scripts": {
+    "dev": "python app/app.py",
+    "build": "pip install -r requirements.txt",
+    "start": "gunicorn app:app"
+  },
+  "keywords": [
+    "portfolio",
+    "flask",
+    "python",
+    "cloud",
+    "devops"
+  ],
+  "license": "MIT"
+}
