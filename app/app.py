@@ -24,22 +24,21 @@ try:
 except ImportError:
     logger.warning("python-dotenv not available, skipping .env file loading")
 
-# Get absolute paths for templates
-base_dir = Path(__file__).parent
-project_root = base_dir.parent
-template_folder = str(base_dir / 'templates')
+# Get absolute paths based on this file's location
+app_dir = Path(__file__).parent
+static_dir = app_dir / 'static'
+templates_dir = app_dir / 'templates'
 
-# Use public folder for static files if it exists (Vercel), otherwise use app/static (local)
-if (project_root / 'public').exists():
-    static_folder = str(project_root / 'public')
-    logger.info(f"Using Vercel static folder: {static_folder}")
-else:
-    static_folder = str(base_dir / 'static')
-    logger.info(f"Using local static folder: {static_folder}")
+logger.info(f"App directory: {app_dir}")
+logger.info(f"Static directory: {static_dir} (exists: {static_dir.exists()})")
+logger.info(f"Templates directory: {templates_dir} (exists: {templates_dir.exists()})")
 
-logger.info(f"Template folder: {template_folder}")
-
-app = Flask(__name__, static_folder=static_folder, static_url_path='/static', template_folder=template_folder)
+# Create Flask app with absolute paths
+app = Flask(__name__, 
+            static_folder=str(static_dir),
+            static_url_path='/static',
+            template_folder=str(templates_dir))
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Email configuration - Use environment variables in production
