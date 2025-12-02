@@ -24,12 +24,19 @@ try:
 except ImportError:
     logger.warning("python-dotenv not available, skipping .env file loading")
 
-# Get absolute paths for static and template folders
+# Get absolute paths for templates
 base_dir = Path(__file__).parent
-static_folder = str(base_dir / 'static')
+project_root = base_dir.parent
 template_folder = str(base_dir / 'templates')
 
-logger.info(f"Static folder: {static_folder}")
+# Use public folder for static files if it exists (Vercel), otherwise use app/static (local)
+if (project_root / 'public').exists():
+    static_folder = str(project_root / 'public')
+    logger.info(f"Using Vercel static folder: {static_folder}")
+else:
+    static_folder = str(base_dir / 'static')
+    logger.info(f"Using local static folder: {static_folder}")
+
 logger.info(f"Template folder: {template_folder}")
 
 app = Flask(__name__, static_folder=static_folder, static_url_path='/static', template_folder=template_folder)
