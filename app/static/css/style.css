@@ -3,8 +3,8 @@
    ======================================== */
 
 :root {
-    --primary-color: #2d3748;
-    --secondary-color: #4a5568;
+    --primary-color: #059669;
+    --secondary-color: #14b8a6;
     --dark-bg: #0f172a;
     --light-bg: #f8fafc;
     --card-bg: #ffffff;
@@ -136,7 +136,7 @@ body {
 .hero {
     margin-top: 80px;
     padding: 6rem 2rem;
-    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    background: linear-gradient(135deg, #059669 0%, #14b8a6 100%);
     color: white;
     position: relative;
     overflow: hidden;
