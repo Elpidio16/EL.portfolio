@@ -3,18 +3,27 @@
 EL.portfolio - Cloud & DevOps Engineer Portfolio
 Flask Application
 """
+import sys
+import logging
 from flask import Flask, render_template, request, jsonify
 import os
 from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from dotenv import load_dotenv
 
-# Load environment variables from .env
-load_dotenv()
+# Configure logging
+logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+logger = logging.getLogger(__name__)
 
-app = Flask(__name__)
+# Try to load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    logger.warning("python-dotenv not available, skipping .env file loading")
+
+app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Email configuration - Use environment variables in production
