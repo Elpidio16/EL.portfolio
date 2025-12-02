@@ -1,11 +1,16 @@
 #!/usr/bin/env python
+"""
+Vercel Serverless Function Entry Point
+"""
 import os
 import sys
+from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add parent directory to path so we can import app
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# Import Flask app
 from app.app import app
 
-# Export the app as the handler for Vercel
-handler = app
+# Vercel expects the Flask app to be exposed as 'app'
+

@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+EL.portfolio - Cloud & DevOps Engineer Portfolio
+Flask Application
+"""
 from flask import Flask, render_template, request, jsonify
 import os
 from datetime import datetime
@@ -6,43 +11,43 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement depuis .env
+# Load environment variables from .env
 load_dotenv()
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
-# Configuration email - Utilisez des variables d'environnement en production
+# Email configuration - Use environment variables in production
 EMAIL_ADDRESS = 'elpidiolissassi2@gmail.com'
 RECIPIENT_EMAIL = 'elpidiolissassi2@gmail.com'
-# Pour Gmail, créez un mot de passe d'application (App Password) à https://myaccount.google.com/apppasswords
+# For Gmail, create an application password at https://myaccount.google.com/apppasswords
 EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD', '')
 
 def send_email(sender_name, sender_email, subject, message):
-    """Envoie un email via SMTP Gmail"""
+    """Send email via SMTP Gmail"""
     try:
         if not EMAIL_PASSWORD:
-            print("⚠️ EMAIL_PASSWORD non configuré. Email non envoyé.")
+            print("WARNING: EMAIL_PASSWORD not configured. Email not sent.")
             return False
             
-        # Créer le message email
+        # Create email message
         msg = MIMEMultipart('alternative')
         msg['Subject'] = f"Portfolio: {subject}"
         msg['From'] = EMAIL_ADDRESS
         msg['To'] = RECIPIENT_EMAIL
         msg['Reply-To'] = sender_email
         
-        # Créer le corps du message en HTML
+        # Create HTML message body
         html_body = f"""
         <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                 <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <h2 style="color: #6366f1;">Nouveau Message du Portfolio</h2>
+                    <h2 style="color: #6366f1;">New Portfolio Message</h2>
                     <hr style="border: 1px solid #e2e8f0;">
                     
-                    <p><strong>Nom:</strong> {sender_name}</p>
+                    <p><strong>Name:</strong> {sender_name}</p>
                     <p><strong>Email:</strong> {sender_email}</p>
-                    <p><strong>Sujet:</strong> {subject}</p>
+                    <p><strong>Subject:</strong> {subject}</p>
                     
                     <hr style="border: 1px solid #e2e8f0;">
                     <h3>Message:</h3>
@@ -50,20 +55,20 @@ def send_email(sender_name, sender_email, subject, message):
                     
                     <hr style="border: 1px solid #e2e8f0;">
                     <p style="font-size: 12px; color: #999;">
-                        Message envoyé depuis votre portfolio personnel
+                        Message sent from your personal portfolio
                     </p>
                 </div>
             </body>
         </html>
         """
         
-        # Texte alternatif
+        # Plain text alternative
         text_body = f"""
-        NOUVEAU MESSAGE DU PORTFOLIO
+        NEW PORTFOLIO MESSAGE
         
-        Nom: {sender_name}
+        Name: {sender_name}
         Email: {sender_email}
-        Sujet: {subject}
+        Subject: {subject}
         
         Message:
         {message}
@@ -74,33 +79,33 @@ def send_email(sender_name, sender_email, subject, message):
         msg.attach(part1)
         msg.attach(part2)
         
-        # Envoyer via SMTP Gmail
+        # Send via SMTP Gmail
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
         server.send_message(msg)
         server.quit()
         
-        print(f"✅ Email envoyé avec succès de {sender_email}")
+        print(f"Email sent successfully from {sender_email}")
         return True
         
     except smtplib.SMTPAuthenticationError:
-        print("❌ Erreur d'authentification Gmail. Vérifiez le mot de passe d'application.")
+        print("Gmail authentication error. Check application password.")
         return False
     except smtplib.SMTPException as e:
-        print(f"❌ Erreur SMTP: {e}")
+        print(f"SMTP Error: {e}")
         return False
     except Exception as e:
-        print(f"❌ Erreur lors de l'envoi d'email: {e}")
+        print(f"Error sending email: {e}")
         return False
 
 @app.route('/')
 def index():
-    """Page d'accueil du portfolio"""
+    """Home page of the portfolio"""
     return render_template('index.html')
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
-    """Endpoint pour le formulaire de contact"""
+    """Endpoint for contact form"""
     try:
         data = request.json
         name = data.get('name', '').strip()
@@ -108,54 +113,54 @@ def contact():
         subject = data.get('subject', '').strip()
         message = data.get('message', '').strip()
         
-        # Validation des champs
+        # Validate fields
         if not all([name, email, subject, message]):
-            return jsonify({'success': False, 'error': 'Tous les champs sont requis'}), 400
+            return jsonify({'success': False, 'error': 'All fields are required'}), 400
         
         if len(name) < 2 or len(name) > 100:
-            return jsonify({'success': False, 'error': 'Le nom doit contenir entre 2 et 100 caractères'}), 400
+            return jsonify({'success': False, 'error': 'Name must be between 2 and 100 characters'}), 400
         
-        # Validation email simple
+        # Simple email validation
         if '@' not in email or '.' not in email:
-            return jsonify({'success': False, 'error': 'Email invalide'}), 400
+            return jsonify({'success': False, 'error': 'Invalid email'}), 400
         
         if len(subject) < 3 or len(subject) > 200:
-            return jsonify({'success': False, 'error': 'Le sujet doit contenir entre 3 et 200 caractères'}), 400
+            return jsonify({'success': False, 'error': 'Subject must be between 3 and 200 characters'}), 400
         
         if len(message) < 10 or len(message) > 5000:
-            return jsonify({'success': False, 'error': 'Le message doit contenir entre 10 et 5000 caractères'}), 400
+            return jsonify({'success': False, 'error': 'Message must be between 10 and 5000 characters'}), 400
         
-        # Envoyer l'email
+        # Send email
         email_sent = send_email(name, email, subject, message)
         
         if email_sent:
             return jsonify({
                 'success': True,
-                'message': 'Message envoyé avec succès! Je vous répondrai très bientôt.'
+                'message': 'Message sent successfully! I will reply very soon.'
             }), 200
         else:
             return jsonify({
                 'success': False,
-                'error': 'Le message a été reçu mais l\'envoi d\'email n\'est pas configuré.'
+                'error': 'Message received but email sending is not configured.'
             }), 500
             
     except Exception as e:
-        print(f"Erreur dans /api/contact: {e}")
-        return jsonify({'success': False, 'error': f'Erreur serveur: {str(e)}'}), 500
+        print(f"Error in /api/contact: {e}")
+        return jsonify({'success': False, 'error': f'Server error: {str(e)}'}), 500
 
 @app.route('/api/download-cv', methods=['GET'])
 def download_cv():
-    """Endpoint pour télécharger le CV (à implémenter)"""
-    return jsonify({'message': 'CV téléchargement non configuré'})
+    """Endpoint to download CV (to implement)"""
+    return jsonify({'message': 'CV download not configured'})
 
 @app.errorhandler(404)
 def not_found(error):
-    """Gestion des pages non trouvées"""
+    """Handle page not found"""
     return render_template('404.html'), 404
 
 @app.errorhandler(500)
 def server_error(error):
-    """Gestion des erreurs serveur"""
+    """Handle server errors"""
     return render_template('500.html'), 500
 
 if __name__ == '__main__':
