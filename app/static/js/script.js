@@ -1,5 +1,5 @@
 // ========================================
-// NAVIGATION ET MENU HAMBURGER
+// NAVIGATION AND HAMBURGER MENU
 // ========================================
 
 const hamburger = document.querySelector('.hamburger');
@@ -12,7 +12,7 @@ hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
 });
 
-// Fermer le menu quand on clique sur un lien
+// Close menu when clicking on a link
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
@@ -36,7 +36,7 @@ window.addEventListener('scroll', () => {
         navbar.style.boxShadow = 'var(--shadow-md)';
     }
 
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For mobile or negative scrolling
 });
 
 // ========================================
@@ -65,7 +65,7 @@ window.addEventListener('scroll', () => {
 });
 
 // ========================================
-// FORMULAIRE DE CONTACT
+// CONTACT FORM
 // ========================================
 
 const contactForm = document.getElementById('contact-form');
@@ -78,22 +78,22 @@ if (contactForm) {
         const subject = document.getElementById('subject').value.trim();
         const message = document.getElementById('message').value.trim();
 
-        // Validation simple
+        // Simple validation
         if (!name || !email || !subject || !message) {
-            showFormStatus('Veuillez remplir tous les champs', 'error');
+            showFormStatus('Please fill in all fields', 'error');
             return;
         }
 
         if (!isValidEmail(email)) {
-            showFormStatus('Veuillez entrer une adresse email valide', 'error');
+            showFormStatus('Please enter a valid email address', 'error');
             return;
         }
 
-        // Désactiver le bouton
+        // Disable submit button
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Envoi en cours...';
+        submitBtn.textContent = 'Sending...';
 
         try {
             const response = await fetch('/api/contact', {
@@ -110,11 +110,11 @@ if (contactForm) {
                 showFormStatus(data.message, 'success');
                 contactForm.reset();
             } else {
-                showFormStatus(data.error || 'Une erreur est survenue', 'error');
+                showFormStatus(data.error || 'An error occurred', 'error');
             }
         } catch (error) {
-            console.error('Erreur:', error);
-            showFormStatus('Erreur lors de l\'envoi du message', 'error');
+            console.error('Error:', error);
+            showFormStatus('Error sending message', 'error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
@@ -141,7 +141,7 @@ function isValidEmail(email) {
 }
 
 // ========================================
-// ANIMATIONS À L'SCROLL
+// SCROLL ANIMATIONS
 // ========================================
 
 const observerOptions = {
