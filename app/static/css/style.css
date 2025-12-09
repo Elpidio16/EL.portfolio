@@ -382,8 +382,10 @@ body {
 }
 
 .company-logo {
-    max-height: 100px;
-    max-width: 220px;
+    max-height: 85px;
+    max-width: 280px;
+    width: auto;
+    height: auto;
     object-fit: contain;
     display: block;
     filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.12));
