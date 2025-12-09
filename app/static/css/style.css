@@ -636,11 +636,13 @@ body {
     transition: var(--transition);
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .project-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-lg);
+    border-left-width: 6px;
 }
 
 .project-header {
@@ -706,13 +708,18 @@ body {
 
 .project-metrics {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
 }
 
 .metric {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .metric-value {
@@ -723,10 +730,11 @@ body {
 }
 
 .metric-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-light);
-    margin: 0.5rem 0 0 0;
+    margin: 0.4rem 0 0 0;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 /* ========================================
