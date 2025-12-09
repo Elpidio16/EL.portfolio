@@ -906,8 +906,8 @@ body {
    ======================================== */
 
 .recommendations-section {
-    padding: 8rem 2rem;
-    background: var(--dark-bg);
+    padding: 4rem 2rem;
+    background: var(--light-bg);
 }
 
 .recommendations-grid {
