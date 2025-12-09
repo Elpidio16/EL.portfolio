@@ -635,6 +635,9 @@ body {
     box-shadow: var(--shadow-md);
     transition: var(--transition);
     border-top: 4px solid var(--secondary-color);
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .certification-card:hover {
