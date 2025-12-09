@@ -710,14 +710,14 @@ body {
 }
 
 .project-metrics {
-    display: flex;
-    gap: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
 }
 
 .metric {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -726,14 +726,15 @@ body {
 }
 
 .metric-value {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--primary-color);
     margin: 0;
+    line-height: 1.2;
 }
 
 .metric-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-light);
     margin: 0.4rem 0 0 0;
     font-weight: 500;
