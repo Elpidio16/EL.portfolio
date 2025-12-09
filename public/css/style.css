@@ -687,11 +687,10 @@ body {
 }
 
 .project-tech {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.6rem;
     margin-bottom: 1.5rem;
-    justify-content: flex-start;
 }
 
 .tech-tag {
@@ -704,6 +703,7 @@ body {
     font-weight: 600;
     transition: var(--transition);
     white-space: nowrap;
+    text-align: center;
 }
 
 .tech-tag:hover {
