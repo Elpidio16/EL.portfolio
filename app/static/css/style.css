@@ -753,6 +753,11 @@ body {
 .tech-stack-section {
     padding: 8rem 2rem;
     background: var(--light-bg);
+    text-align: center;
+}
+
+.tech-stack-section .section-subtitle {
+    text-align: center;
 }
 
 .tech-stack-grid {
