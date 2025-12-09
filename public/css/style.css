@@ -688,22 +688,24 @@ body {
 
 .project-tech {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.5rem;
     margin-bottom: 1.5rem;
 }
 
 .tech-tag {
     background: white;
     color: var(--primary-color);
-    padding: 0.35rem 0.65rem;
+    padding: 0.3rem 0.5rem;
     border-radius: 6px;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     border: 1.5px solid var(--border-color);
     font-weight: 600;
     transition: var(--transition);
     white-space: nowrap;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tech-tag:hover {
