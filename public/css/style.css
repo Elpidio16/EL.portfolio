@@ -726,7 +726,7 @@ body {
 }
 
 .metric-value {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--primary-color);
     margin: 0;
