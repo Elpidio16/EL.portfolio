@@ -689,19 +689,21 @@ body {
 .project-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.7rem;
+    gap: 0.6rem;
     margin-bottom: 1.5rem;
+    justify-content: flex-start;
 }
 
 .tech-tag {
     background: white;
     color: var(--primary-color);
-    padding: 0.4rem 0.7rem;
+    padding: 0.35rem 0.65rem;
     border-radius: 6px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     border: 1.5px solid var(--border-color);
     font-weight: 600;
     transition: var(--transition);
+    white-space: nowrap;
 }
 
 .tech-tag:hover {
