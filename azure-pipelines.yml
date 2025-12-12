@@ -83,7 +83,7 @@ stages:
 
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: 'Azure-ServiceConnection'
+              azureSubscription: 'portofolio-sc'
               appType: 'webAppLinux'
               appName: '$(webAppName)'
               runtimeStack: 'PYTHON|3.11'
