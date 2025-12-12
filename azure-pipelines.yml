@@ -14,10 +14,10 @@ pool:
 
 variables:
   pythonVersion: '3.11'
-  azureSubscription: '17dac9a9-84cd-47ba-8e01-c08ebe1320d6'
   resourceGroup: 'Global'
   webAppName: 'elpidio-portfolio'
-  tenantId: '01ff6b01-8142-4f07-91f6-13f870cd8a3d'
+  # Les variables sensibles (subscriptionId, tenantId) doivent être configurées 
+  # dans les variables du pipeline Azure DevOps, pas en clair ici
 
 stages:
 - stage: Build
