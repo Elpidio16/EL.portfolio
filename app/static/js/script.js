@@ -1,4 +1,37 @@
 // ========================================
+// DISABLE VIEW SOURCE AND DEV TOOLS
+// ========================================
+
+document.addEventListener('keydown', (e) => {
+    // Disable Ctrl+U (View Source)
+    if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
+        e.preventDefault();
+        return false;
+    }
+    // Disable Ctrl+Shift+I (Dev Tools)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
+        e.preventDefault();
+        return false;
+    }
+    // Disable Ctrl+Shift+C (Inspect)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+        e.preventDefault();
+        return false;
+    }
+    // Disable F12 (Dev Tools)
+    if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable right-click context menu
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    return false;
+});
+
+// ========================================
 // NAVIGATION AND HAMBURGER MENU
 // ========================================
 
@@ -263,3 +296,102 @@ document.querySelector('.about-stats')?.parentElement &&
 
 // Log pour confirmer que le script est chargé
 console.log('Portfolio script loaded successfully!');
+
+// ========================================
+// RECOMMENDATIONS CAROUSEL
+// ========================================
+
+const initCarousel = () => {
+    const carousel = document.querySelector('.recommendations-carousel');
+    if (!carousel) return;
+
+    const cards = carousel.querySelectorAll('.recommendation-card');
+    const dotsContainer = document.querySelector('.carousel-dots');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    
+    if (!cards.length || !dotsContainer || !prevBtn || !nextBtn) {
+        console.warn('Carousel elements not found');
+        return;
+    }
+
+    const itemsPerPage = 2;
+    let currentIndex = 0;
+    let autoPlayInterval;
+
+    // Create dots for pages (not individual items)
+    const numPages = Math.ceil(cards.length / itemsPerPage);
+    for (let i = 0; i < numPages; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === 0) dot.classList.add('active');
+        dotsContainer.appendChild(dot);
+    }
+
+    const dots = dotsContainer.querySelectorAll('.dot');
+
+    const showSlide = (index) => {
+        // Hide all cards
+        cards.forEach(card => card.classList.add('hidden'));
+
+        // Show 2 cards for current page
+        const startIdx = index * itemsPerPage;
+        for (let i = 0; i < itemsPerPage && startIdx + i < cards.length; i++) {
+            cards[startIdx + i].classList.remove('hidden');
+        }
+
+        // Update dots
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+
+        currentIndex = index;
+
+        // Restart auto-play
+        clearInterval(autoPlayInterval);
+        startAutoPlay();
+    };
+
+    const nextSlide = () => {
+        const nextIndex = (currentIndex + 1) % numPages;
+        showSlide(nextIndex);
+    };
+
+    const prevSlide = () => {
+        const prevIndex = (currentIndex - 1 + numPages) % numPages;
+        showSlide(prevIndex);
+    };
+
+    const startAutoPlay = () => {
+        autoPlayInterval = setInterval(nextSlide, 3000);
+    };
+
+    // Add dot click listeners
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+    });
+
+    // Event listeners
+    nextBtn.addEventListener('click', () => {
+        clearInterval(autoPlayInterval);
+        nextSlide();
+    });
+    prevBtn.addEventListener('click', () => {
+        clearInterval(autoPlayInterval);
+        prevSlide();
+    });
+
+    // Show first page
+    showSlide(0);
+
+    console.log('Carousel initialized with ' + cards.length + ' items (' + numPages + ' pages)');
+};
+
+// Initialize carousel when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousel);
+} else {
+    initCarousel();
+}
